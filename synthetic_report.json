@@ -1,0 +1,68 @@
+{
+  "data_kind": "SYNTHETIC ONLY",
+  "method": "proportional no-vig; equal-stake; fixture-cluster percentile bootstrap",
+  "input_records": 806,
+  "accepted_signals": 800,
+  "excluded": {
+    "market mismatch": 1,
+    "timestamp order": 1,
+    "inactive quote": 1,
+    "insufficient or unknown limit": 1,
+    "signal EV below 3 percent": 1,
+    "duplicate signal": 1
+  },
+  "sports": {
+    "synthetic_basketball": {
+      "signals": 400,
+      "fixtures": 400,
+      "mean_clv": 0.049999999999999954,
+      "clv_ci95": [
+        0.04924013157894733,
+        0.0507394901315789
+      ],
+      "roi_equal_stake": 0.050000000000000044,
+      "roi_ci95": [
+        -0.04449999999999983,
+        0.15250625000000043
+      ],
+      "roi_minus_clv_ci95": [
+        -0.0944112335526313,
+        0.10247067434210533
+      ],
+      "rule1": "INSUFFICIENT_DATA: all-market calibration universe absent",
+      "rule2": "DIAGNOSTIC_ONLY: locked held-out evaluation and pooled test not supplied",
+      "rule3": "INSUFFICIENT_DATA: accepted-bet observation log absent",
+      "decision": "NOT_ELIGIBLE_FOR_LIVE_ALERTS"
+    },
+    "synthetic_tennis": {
+      "signals": 400,
+      "fixtures": 400,
+      "mean_clv": 0.049999999999999954,
+      "clv_ci95": [
+        0.04924013157894733,
+        0.0507394901315789
+      ],
+      "roi_equal_stake": 0.050000000000000044,
+      "roi_ci95": [
+        -0.04449999999999983,
+        0.15250625000000043
+      ],
+      "roi_minus_clv_ci95": [
+        -0.0944112335526313,
+        0.10247067434210533
+      ],
+      "rule1": "INSUFFICIENT_DATA: all-market calibration universe absent",
+      "rule2": "DIAGNOSTIC_ONLY: locked held-out evaluation and pooled test not supplied",
+      "rule3": "INSUFFICIENT_DATA: accepted-bet observation log absent",
+      "decision": "NOT_ELIGIBLE_FOR_LIVE_ALERTS"
+    }
+  },
+  "combined_roi90": "NOT COMPUTED: no prequalified held-out sport set",
+  "limits": [
+    "No profitability inference from synthetic outcomes.",
+    "Calibration on selected signals alone is selection-biased; full market universe required.",
+    "30 accepted observations is a minimum count, not assurance of useful precision.",
+    "No exchange commission, void/partial settlement, time-block dependence or API adapter implemented.",
+    "No actual bets, bankroll operations, credentials or network access."
+  ]
+}

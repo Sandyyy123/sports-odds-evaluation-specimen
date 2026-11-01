@@ -24,7 +24,7 @@ python main.py --output synthetic_report.json
 python -m unittest discover -p 'test_*.py' -v
 ```
 
-Nine tests check market mismatch, duplicate delivery, future-reference rejection, lack of closing-price leakage into signal EV, cluster count, invalid odds, reproducibility and refusal to qualify sports when evidence is absent.
+Thirteen tests check market mismatch, duplicate delivery, future-reference rejection, lack of closing-price leakage into signal EV, cluster count, invalid odds, reproducibility and refusal to qualify sports when evidence is absent.
 
 The 806 generated rows yield 800 accepted synthetic signals and six excluded rows. Outcomes alternate win/loss by construction, so displayed returns are fixtures for exercising code, not market measurements.
 

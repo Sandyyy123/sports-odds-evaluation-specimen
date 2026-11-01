@@ -18,6 +18,10 @@ def assess_record(r):
         return None, 'market mismatch'
     if r.get('settlement') not in ('win', 'loss'):
         return None, 'unsupported or missing settlement'
+    if any(not isfinite(r[k]) for k in ('reference_time','signal_time','close_time','start_time','available_limit','required_limit')):
+        return None, 'nonfinite time or limit'
+    if r['required_limit'] <= 0:
+        return None, 'invalid required limit'
     if not r['reference_time'] <= r['signal_time'] < r['close_time'] <= r['start_time']:
         return None, 'timestamp order'
     if not r.get('active', False) or not r.get('reference_active', False):
@@ -27,7 +31,9 @@ def assess_record(r):
     if not isfinite(r['offered_odds']) or not 1.25 <= r['offered_odds'] <= 2.5:
         return None, 'odds outside requested range'
     i = r['outcome_index']
-    if len(r['reference_odds']) != len(r['closing_odds']):
+    if r['reference_outcome_ids'] != r['closing_outcome_ids'] or len(set(r['reference_outcome_ids'])) != len(r['reference_outcome_ids']):
+        return None, 'outcome correspondence'
+    if len(r['reference_outcome_ids']) != len(r['reference_odds']) or len(r['reference_odds']) != len(r['closing_odds']):
         return None, 'incomplete outcome correspondence'
     if not 0 <= i < len(r['reference_odds']):
         return None, 'outcome index'
@@ -71,10 +77,11 @@ def report(records):
     kept=[];excluded=defaultdict(int)
     seen=set()
     for r in records:
-        key=(r['fixture_id'],r['signal_id'])
-        if key in seen: excluded['duplicate signal']+=1;continue
-        seen.add(key)
-        try: value,reason=assess_record(r)
+        try:
+            key=(r['fixture_id'],r['signal_id'])
+            if key in seen: excluded['duplicate signal']+=1;continue
+            seen.add(key)
+            value,reason=assess_record(r)
         except (KeyError,TypeError,ValueError,IndexError):value,reason=None,'invalid schema'
         if reason:excluded[reason]+=1
         else:kept.append(value)

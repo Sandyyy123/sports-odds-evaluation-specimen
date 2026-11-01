@@ -27,4 +27,14 @@ class EvaluationContracts(unittest.TestCase):
  def test_all_requested_exclusions_counted(self):
   r=report(fixtures());self.assertEqual(sum(r['excluded'].values()),6)
 
+ def test_malformed_row_is_audited(self):
+  self.assertEqual(report([{}])['excluded']['invalid schema'],1)
+ def test_swapped_outcomes_are_rejected(self):
+  r=copy.deepcopy(self.r);r['closing_outcome_ids']=['B','A'];self.assertEqual(assess_record(r)[1],'outcome correspondence')
+ def test_nonfinite_limit_or_time_rejected(self):
+  for field in ['available_limit','required_limit','signal_time','close_time']:
+   r=copy.deepcopy(self.r);r[field]=float('nan');self.assertEqual(assess_record(r)[1],'nonfinite time or limit')
+ def test_tennis_market_has_no_overtime(self):
+  self.assertEqual(self.r['market_key'],'full_match|match_winner|player_a')
+
 if __name__=='__main__':unittest.main()
